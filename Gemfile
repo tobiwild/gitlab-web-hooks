@@ -1,0 +1,15 @@
+source 'https://rubygems.org'
+gem 'sinatra'
+gem 'thin'
+gem 'httmultiparty'
+gem 'gitlab'
+gem 'dotenv'
+gem 'pry'
+gem 'awesome_print'
+group :development do
+  gem 'rubocop'
+  gem 'minitest'
+  gem 'minitest-reporters'
+  gem 'minitest-filesystem'
+  gem 'rake'
+end

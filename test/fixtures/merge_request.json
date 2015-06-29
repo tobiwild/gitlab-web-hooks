@@ -1,0 +1,53 @@
+{
+    "object_attributes": {
+        "action": "update",
+        "assignee_id": null,
+        "author_id": 1,
+        "created_at": "2015-06-27 17:53:17 +0530",
+        "description": "",
+        "id": 4,
+        "iid": 2,
+        "last_commit": {
+            "author": {
+                "email": "tobiwild@example.com",
+                "name": "Tobias Wild"
+            },
+            "id": "94a6385c51d6134d6b95b30a69b4fe9579196152",
+            "message": "was neues\n",
+            "timestamp": "2015-06-17T00:49:18+05:30",
+            "url": "http://localhost:10080/root/mappy/commit/94a6385c51d6134d6b95b30a69b4fe9579196152"
+        },
+        "locked_at": null,
+        "merge_status": "can_be_merged",
+        "milestone_id": null,
+        "position": 0,
+        "source": {
+            "http_url": "http://localhost:10080/root/mappy.git",
+            "name": "mappy",
+            "namespace": "root",
+            "ssh_url": "ssh://git@localhost:10022/root/mappy.git",
+            "visibility_level": 20
+        },
+        "source_branch": "feature",
+        "source_project_id": 3,
+        "state": "opened",
+        "target": {
+            "http_url": "http://localhost:10080/root/mappy.git",
+            "name": "mappy",
+            "namespace": "root",
+            "ssh_url": "ssh://git@localhost:10022/root/mappy.git",
+            "visibility_level": 20
+        },
+        "target_branch": "master",
+        "target_project_id": 3,
+        "title": "Feature2",
+        "updated_at": "2015-06-28 16:15:05 +0530",
+        "url": "http://localhost:10080/root/mappy/merge_requests/2"
+    },
+    "object_kind": "merge_request",
+    "user": {
+        "avatar_url": "http://www.gravatar.com/avatar/e64c7d89f26bd1972efa854d13d7dd61?s=40&d=identicon",
+        "name": "Administrator",
+        "username": "root"
+    }
+}
