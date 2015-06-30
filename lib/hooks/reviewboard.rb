@@ -78,7 +78,7 @@ module Hooks
         create_params:
         {
           repository: repo.fetch('name'),
-          submit_as: merge_request.fetch('user').fetch('username')
+          submit_as: ldap_uid(attr.fetch('author_id'))
         },
         draft_params:
         {
@@ -90,6 +90,15 @@ module Hooks
         },
         diff: file
       )
+    end
+
+    def ldap_uid(user_id)
+      @gitlab
+        .user(user_id)
+        .identities.find { |i| i.fetch('provider') == 'ldapmain' }
+        .tap { |o| fail "no ldap identity for user id #{user_id}" if o.nil? }
+        .fetch('extern_uid')[/(?<=uid=)[^,]+/]
+        .tap { |o| fail "ldap uid not found for user id #{user_id}" if o.nil? }
     end
 
     def review_id_from_comments(pid, mid)

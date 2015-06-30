@@ -45,6 +45,19 @@ module Hooks
           OpenStruct.new(labels: ['reviewboard']),
           [3, 4]
         )
+
+        @gitlab.expect(
+          :user,
+          OpenStruct.new(
+            identities: [
+              {
+                'provider' => 'ldapmain',
+                'extern_uid' => 'uid=bernd.root,ou=Users'
+              }
+            ]
+          ),
+          [1]
+        )
       end
 
       it 'creates new review request' do
@@ -57,7 +70,7 @@ module Hooks
             create_params:
             {
               repository: 'mappy',
-              submit_as: 'root'
+              submit_as: 'bernd.root'
             },
             draft_params:
             {
