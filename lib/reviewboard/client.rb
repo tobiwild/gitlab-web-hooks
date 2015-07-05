@@ -19,6 +19,12 @@ module Reviewboard
       })
     end
 
+    def update_review_request(id, body)
+      put("/api/review-requests/#{id}/", {
+        :body => body
+      })
+    end
+
     def update_review_request_draft(id, body)
       put("/api/review-requests/#{id}/draft/", {
         :body => body

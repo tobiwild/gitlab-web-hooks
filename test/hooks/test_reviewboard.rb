@@ -99,6 +99,12 @@ module Hooks
             OpenStruct.new(note: 'foobar'),
             OpenStruct.new(note: 'REVIEW_ID: 42')
           ], [3, 4])
+
+          @reviewboard.expect(
+            :update_review_request,
+            nil,
+            [42, status: 'pending']
+          )
         end
 
         it 'reads active review id from comments and updates review' do

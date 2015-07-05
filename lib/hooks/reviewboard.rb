@@ -19,6 +19,14 @@ module Hooks
       )
 
       unless review_id.nil?
+        @reviewboard.update_review_request(
+          review_id,
+          status: if %w(merged closed).include?(attr.fetch('state'))
+                    'submitted'
+                  else
+                    'pending'
+                  end
+        )
         review = @reviewboard.review_request(review_id)
         return if review.fetch('commit_id') == attr.fetch('last_commit').fetch('id')
       end
@@ -78,7 +86,7 @@ module Hooks
         create_params:
         {
           repository: repo.fetch('name'),
-          submit_as: ldap_uid(attr.fetch('author_id'))
+          submit_as: ldap_uid(attr.fetch('author_id')) || merge_request.fetch('user').fetch('username')
         },
         draft_params:
         {
@@ -96,9 +104,8 @@ module Hooks
       @gitlab
         .user(user_id)
         .identities.find { |i| i.fetch('provider') == 'ldapmain' }
-        .tap { |o| fail "no ldap identity for user id #{user_id}" if o.nil? }
+        .tap { |o| return nil if o.nil? }
         .fetch('extern_uid')[/(?<=uid=)[^,]+/]
-        .tap { |o| fail "ldap uid not found for user id #{user_id}" if o.nil? }
     end
 
     def review_id_from_comments(pid, mid)
