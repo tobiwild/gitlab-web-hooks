@@ -4,7 +4,7 @@
         "assignee_id": null,
         "author_id": 1,
         "created_at": "2015-06-27 17:53:17 +0530",
-        "description": "",
+        "description": "some new feature",
         "id": 4,
         "iid": 2,
         "last_commit": {

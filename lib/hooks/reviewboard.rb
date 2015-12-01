@@ -13,10 +13,8 @@ module Hooks
 
       return unless label_matches?(attr)
 
-      review_id = review_id_from_comments(
-        attr.fetch('source_project_id'),
-        attr.fetch('id')
-      )
+      review_id = attr.fetch('description')[/(?<=REVIEW_ID: )\d+/]
+      review_id = review_id.to_i unless review_id.nil?
 
       unless review_id.nil?
         @reviewboard.update_review_request(
@@ -38,10 +36,11 @@ module Hooks
       ) do |file|
         if review_id.nil?
           review_id = create_review_request(merge_request, file)
-          @gitlab.create_merge_request_comment(
+          @gitlab.update_merge_request(
             attr.fetch('source_project_id'),
             attr.fetch('id'),
-            "REVIEW_ID: #{review_id}"
+            description:
+              "#{attr.fetch('description')}\r\nREVIEW_ID: #{review_id}".strip
           )
         else
           update_review_request(review_id, merge_request, file)
@@ -106,13 +105,6 @@ module Hooks
         .identities.find { |i| i.fetch('provider') == 'ldapmain' }
         .tap { |o| return nil if o.nil? }
         .fetch('extern_uid')[/(?<=uid=)[^,]+/]
-    end
-
-    def review_id_from_comments(pid, mid)
-      @gitlab.merge_request_comments(pid, mid).each do |comment|
-        return $1.to_i if /REVIEW_ID: (\d+)/.match(comment.note)
-      end
-      nil
     end
   end
 end

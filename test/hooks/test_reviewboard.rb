@@ -61,9 +61,8 @@ module Hooks
       end
 
       it 'creates new review request' do
-        @gitlab.expect(:merge_request_comments, [], [3, 4])
-        @gitlab.expect(:create_merge_request_comment, nil, [
-          3, 4, 'REVIEW_ID: 42'
+        @gitlab.expect(:update_merge_request, nil, [
+          3, 4, description: "some new feature\r\nREVIEW_ID: 42"
         ])
         @reviewboard.expect(:sync_review_request, 42, [
           {
@@ -95,11 +94,8 @@ module Hooks
 
       describe 'update review' do
         before do
-          @gitlab.expect(:merge_request_comments, [
-            OpenStruct.new(note: 'foobar'),
-            OpenStruct.new(note: 'REVIEW_ID: 42')
-          ], [3, 4])
-
+          @merge_request['object_attributes']['description'] =
+            'bla bla REVIEW_ID: 42 bla bla'
           @reviewboard.expect(
             :update_review_request,
             nil,
